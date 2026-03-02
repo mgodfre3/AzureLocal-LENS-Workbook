@@ -2672,8 +2672,8 @@
                 ],
                 "sortBy": [
                   {
-                    "itemKey": "Status",
-                    "sortOrder": 1
+                    "itemKey": "Current Avg %",
+                    "sortOrder": 2
                   }
                 ],
                 "labelSettings": [
@@ -2683,7 +2683,7 @@
                   },
                   {
                     "columnId": "Current Avg %",
-                    "label": "Avg Usage %"
+                    "label": "Current Avg %"
                   },
                   {
                     "columnId": "Days to Warning",
