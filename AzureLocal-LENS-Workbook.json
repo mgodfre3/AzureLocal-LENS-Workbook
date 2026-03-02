@@ -2600,6 +2600,14 @@
           {
             "type": 1,
             "content": {
+              "json": "💡 **Tip:** The six resource graphs below use data in Azure Log Analytics, this requires that your clusters have the Azure Monitoring Agent (AMA) extension installed, for more information see [Azure Local Insights](https://learn.microsoft.com/azure/azure-local/concepts/monitoring-overview).",
+              "style": "upsell"
+            },
+            "name": "capacity-ama-tip"
+          },
+          {
+            "type": 1,
+            "content": {
               "json": "### 📊 Top 5 Clusters by Resource Usage\r\nShowing the 5 clusters with the highest average usage for each resource type over the selected time range."
             },
             "name": "text-top5-charts-header"
