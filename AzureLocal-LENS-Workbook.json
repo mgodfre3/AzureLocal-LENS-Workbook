@@ -4190,6 +4190,18 @@
             "name": "aks-prometheus-params"
           },
           {
+            "type": 1,
+            "content": {
+              "json": "💡 **Tip:** The tables below require [Azure Managed Prometheus](https://learn.microsoft.com/en-us/azure/azure-monitor/essentials/prometheus-metrics-overview) to be enabled on your AKS Arc clusters. Prometheus metrics are collected into an Azure Monitor Workspace and queried using PromQL."
+            },
+            "conditionalVisibility": {
+              "parameterName": "ClusterFilter",
+              "comparison": "isNotEqualTo",
+              "value": "value::all"
+            },
+            "name": "text-prometheus-tip"
+          },
+          {
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
