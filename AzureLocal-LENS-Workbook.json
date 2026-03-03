@@ -2441,6 +2441,12 @@
                       "thresholdsOptions": "icons",
                       "thresholdsGrid": [
                         {
+                          "operator": "==",
+                          "thresholdValue": "0",
+                          "representation": "Blank",
+                          "text": "{0}{1}"
+                        },
+                        {
                           "operator": ">=",
                           "thresholdValue": "95",
                           "representation": "4",
