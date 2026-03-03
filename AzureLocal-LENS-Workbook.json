@@ -2458,7 +2458,7 @@
                   },
                   {
                     "columnId": "ratioHealthPct",
-                    "label": "% of Target"
+                    "label": "% of P:V Target"
                   },
                   {
                     "columnId": "physicalCores",
