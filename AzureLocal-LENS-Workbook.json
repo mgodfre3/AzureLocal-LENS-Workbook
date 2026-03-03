@@ -2182,6 +2182,14 @@
             "name": "capacity-ratio-params"
           },
           {
+            "type": 1,
+            "content": {
+              "json": "💡 **Tip:** The 'Memory Usage % (inc N-1)' column calculates the percentage of available memory including a N-1 formula, that deducts one machine's worth of memory for multi-machine (2+ nodes) Azure Local instances. This is required to be able to drain each machine without taking workload offline during rolling cluster update operations.",
+              "style": "upsell"
+            },
+            "name": "capacity-n1-memory-tip"
+          },
+          {
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
