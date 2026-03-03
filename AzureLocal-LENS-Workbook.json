@@ -2623,6 +2623,35 @@
                   "resourceType": "microsoft.resourcegraph/resources"
                 },
                 {
+                  "id": "azure-monitor-workspace",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "AzureMonitorWorkspace",
+                  "label": "Azure Monitor Workspace",
+                  "type": 2,
+                  "description": "Select the Azure Monitor Workspace collecting Prometheus metrics from your AKS Arc clusters.",
+                  "isRequired": true,
+                  "multiSelect": true,
+                  "quote": "'",
+                  "delimiter": ",",
+                  "query": "resources\r\n| where type == \"microsoft.monitor/accounts\"\r\n| where '{ResourceGroupFilter}' == '' or resourceGroup matches regex strcat('(?i)', replace_string(replace_string('{ResourceGroupFilter}', '*', '.*'), '?', '.'))\r\n| project value = id, label = name\r\n| order by label asc",
+                  "crossComponentResources": [
+                    "{Subscriptions}"
+                  ],
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::all"
+                    ],
+                    "includeAll": true,
+                    "showDefault": false
+                  },
+                  "defaultValue": "value::all",
+                  "value": [
+                    "value::all"
+                  ],
+                  "queryType": 1,
+                  "resourceType": "microsoft.resourcegraph/resources"
+                },
+                {
                   "id": "node-trends-time-range",
                   "version": "KqlParameterItem/1.0",
                   "name": "NodeTrendsTimeRange",
@@ -4147,24 +4176,20 @@
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "let clusterRGMap = dynamic({ClusterRGMap});\r\nlet mapTable = print mapping = clusterRGMap\r\n| mv-expand mapping\r\n| extend pair = split(tostring(mapping), ':')\r\n| extend rg = tolower(tostring(pair[0])), clusterName = tostring(pair[1])\r\n| where clusterName =~ '{ClusterFilter}'\r\n| project rg;\r\nlet targetRGs = materialize(mapTable);\r\nKubeNodeInventory\r\n| where TimeGenerated {NodeTrendsTimeRange}\r\n| extend nodeRG = extract('/resourcegroups/([^/]+)/', 1, tolower(ClusterId))\r\n| where nodeRG in (targetRGs)\r\n| extend aksClusterName = extract('/([^/]+)$', 1, ClusterId)\r\n| summarize arg_max(TimeGenerated, *) by Computer, aksClusterName\r\n| join kind=leftouter (\r\n    union\r\n        (InsightsMetrics\r\n        | where TimeGenerated {NodeTrendsTimeRange}\r\n        | where Name in ('cpuUsageNanoCores', 'cpuCapacityNanoCores', 'memoryRssBytes', 'memoryCapacityBytes')\r\n        | project Computer, CounterName = Name, CounterValue = Val),\r\n        (Perf\r\n        | where TimeGenerated {NodeTrendsTimeRange}\r\n        | where ObjectName == 'K8SNode'\r\n        | where CounterName in ('cpuCapacityNanoCores', 'cpuUsageNanoCores', 'memoryRssBytes', 'memoryCapacityBytes')\r\n        | project Computer, CounterName, CounterValue)\r\n    | summarize AvgCPUUsage = avgif(CounterValue, CounterName == 'cpuUsageNanoCores'),\r\n              AvgCPUCap = avgif(CounterValue, CounterName == 'cpuCapacityNanoCores'),\r\n              AvgMemUsage = avgif(CounterValue, CounterName == 'memoryRssBytes'),\r\n              AvgMemCap = avgif(CounterValue, CounterName == 'memoryCapacityBytes')\r\n      by Computer\r\n) on Computer\r\n| extend AvgCPU = round(iff(AvgCPUCap > 0, AvgCPUUsage / AvgCPUCap * 100, real(null)), 1)\r\n| extend AvgMemory = round(iff(AvgMemCap > 0, AvgMemUsage / AvgMemCap * 100, real(null)), 1)\r\n| project aksName = aksClusterName, nodeName = Computer, AvgCPU, AvgMemory, Status\r\n| order by aksName asc, nodeName asc",
+              "query": "avg by (cluster, node) (1 - rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100",
               "size": 0,
-              "title": "☸️ AKS Node Resource Usage on: {ClusterFilter}",
-              "noDataMessage": "No AKS node data found. Ensure Container Insights is enabled on your AKS Arc clusters and the selected Log Analytics workspace receives container telemetry.",
-              "timeContext": {
-                "durationMs": 86400000
-              },
-              "timeContextFromParameter": "NodeTrendsTimeRange",
+              "title": "☸️ AKS Node CPU Usage on: {ClusterFilter}",
+              "noDataMessage": "No Prometheus data found. Ensure Azure Managed Prometheus is enabled on your AKS Arc clusters and the selected Azure Monitor Workspace receives metrics.",
               "queryType": 0,
-              "resourceType": "microsoft.operationalinsights/workspaces",
+              "resourceType": "microsoft.monitor/accounts",
               "crossComponentResources": [
-                "{MachinesLogAnalyticsWorkspace}"
+                "{AzureMonitorWorkspace}"
               ],
               "visualization": "table",
               "gridSettings": {
                 "formatters": [
                   {
-                    "columnMatch": "AvgCPU",
+                    "columnMatch": "Value",
                     "formatter": 8,
                     "formatOptions": {
                       "min": 0,
@@ -4181,63 +4206,22 @@
                     }
                   },
                   {
-                    "columnMatch": "AvgMemory",
-                    "formatter": 8,
-                    "formatOptions": {
-                      "min": 0,
-                      "max": 100,
-                      "palette": "greenRed"
-                    },
-                    "numberFormat": {
-                      "unit": 1,
-                      "options": {
-                        "style": "decimal",
-                        "minimumFractionDigits": 1,
-                        "maximumFractionDigits": 1
-                      }
-                    }
-                  },
-                  {
-                    "columnMatch": "Status",
-                    "formatter": 18,
-                    "formatOptions": {
-                      "thresholdsOptions": "icons",
-                      "thresholdsGrid": [
-                        {
-                          "operator": "==",
-                          "thresholdValue": "Ready",
-                          "representation": "success",
-                          "text": "{0}{1}"
-                        },
-                        {
-                          "operator": "Default",
-                          "representation": "warning",
-                          "text": "{0}{1}"
-                        }
-                      ]
-                    }
+                    "columnMatch": "Timestamp",
+                    "formatter": 5
                   }
                 ],
                 "labelSettings": [
                   {
-                    "columnId": "aksName",
+                    "columnId": "cluster",
                     "label": "AKS Cluster"
                   },
                   {
-                    "columnId": "nodeName",
+                    "columnId": "node",
                     "label": "Node Name"
                   },
                   {
-                    "columnId": "AvgCPU",
+                    "columnId": "Value",
                     "label": "Avg CPU %"
-                  },
-                  {
-                    "columnId": "AvgMemory",
-                    "label": "Avg Memory %"
-                  },
-                  {
-                    "columnId": "Status",
-                    "label": "Status"
                   }
                 ]
               }
@@ -4247,7 +4231,68 @@
               "comparison": "isNotEqualTo",
               "value": "value::all"
             },
-            "name": "cluster-aks-node-perf-table"
+            "name": "cluster-aks-node-cpu-table"
+          },
+          {
+            "type": 3,
+            "content": {
+              "version": "KqlItem/1.0",
+              "query": "(1 - avg by (cluster, node) (node_memory_MemAvailable_bytes) / avg by (cluster, node) (node_memory_MemTotal_bytes)) * 100",
+              "size": 0,
+              "title": "☸️ AKS Node Memory Usage on: {ClusterFilter}",
+              "noDataMessage": "No Prometheus data found. Ensure Azure Managed Prometheus is enabled on your AKS Arc clusters and the selected Azure Monitor Workspace receives metrics.",
+              "queryType": 0,
+              "resourceType": "microsoft.monitor/accounts",
+              "crossComponentResources": [
+                "{AzureMonitorWorkspace}"
+              ],
+              "visualization": "table",
+              "gridSettings": {
+                "formatters": [
+                  {
+                    "columnMatch": "Value",
+                    "formatter": 8,
+                    "formatOptions": {
+                      "min": 0,
+                      "max": 100,
+                      "palette": "greenRed"
+                    },
+                    "numberFormat": {
+                      "unit": 1,
+                      "options": {
+                        "style": "decimal",
+                        "minimumFractionDigits": 1,
+                        "maximumFractionDigits": 1
+                      }
+                    }
+                  },
+                  {
+                    "columnMatch": "Timestamp",
+                    "formatter": 5
+                  }
+                ],
+                "labelSettings": [
+                  {
+                    "columnId": "cluster",
+                    "label": "AKS Cluster"
+                  },
+                  {
+                    "columnId": "node",
+                    "label": "Node Name"
+                  },
+                  {
+                    "columnId": "Value",
+                    "label": "Avg Memory %"
+                  }
+                ]
+              }
+            },
+            "conditionalVisibility": {
+              "parameterName": "ClusterFilter",
+              "comparison": "isNotEqualTo",
+              "value": "value::all"
+            },
+            "name": "cluster-aks-node-memory-table"
           }
         ]
       },
