@@ -2899,6 +2899,7 @@
               ],
               "visualization": "table",
               "gridSettings": {
+                "rowLimit": 6000,
                 "formatters": [
                   {
                     "columnMatch": "Current Avg %",
