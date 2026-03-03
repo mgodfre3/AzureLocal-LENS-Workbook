@@ -2871,7 +2871,7 @@
                   "id": "forecast-time-range-param",
                   "version": "KqlParameterItem/1.0",
                   "name": "ForecastTimeRange",
-                  "label": "Forecast Time Range",
+                  "label": "Historic Data Time Range",
                   "type": 4,
                   "isRequired": true,
                   "typeSettings": {
