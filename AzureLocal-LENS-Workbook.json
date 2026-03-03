@@ -3422,6 +3422,18 @@
             }
           },
           {
+            "type": 1,
+            "content": {
+              "json": "💡 **Tip:** The chart below uses [Storage Path](https://learn.microsoft.com/en-us/azure-stack/hci/manage/create-storage-path) resources in Azure to report volume usage data."
+            },
+            "conditionalVisibility": {
+              "parameterName": "ClusterFilter",
+              "comparison": "isNotEqualTo",
+              "value": "value::all"
+            },
+            "name": "text-storage-paths-tip"
+          },
+          {
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
