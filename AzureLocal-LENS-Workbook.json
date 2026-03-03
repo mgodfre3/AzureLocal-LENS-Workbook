@@ -2268,7 +2268,7 @@
                     "columnMatch": "ratioValue",
                     "formatter": 18,
                     "formatOptions": {
-                      "customColumnWidthSetting": "110px",
+                      "customColumnWidthSetting": "160px",
                       "thresholdsOptions": "colors",
                       "thresholdsGrid": [
                         {
@@ -2298,7 +2298,6 @@
                     "columnMatch": "ratioHealthPct",
                     "formatter": 8,
                     "formatOptions": {
-                      "customColumnWidthSetting": "110px",
                       "min": 0,
                       "max": 200,
                       "palette": "greenRedDark"
@@ -2316,7 +2315,6 @@
                     "columnMatch": "memoryUsagePct",
                     "formatter": 18,
                     "formatOptions": {
-                      "customColumnWidthSetting": "130px",
                       "thresholdsOptions": "icons",
                       "thresholdsGrid": [
                         {
@@ -2351,9 +2349,6 @@
                   {
                     "columnMatch": "physicalCores",
                     "formatter": 0,
-                    "formatOptions": {
-                      "customColumnWidthSetting": "80px"
-                    },
                     "numberFormat": {
                       "unit": 0,
                       "options": {
@@ -2366,9 +2361,6 @@
                   {
                     "columnMatch": "physicalMemoryGB",
                     "formatter": 0,
-                    "formatOptions": {
-                      "customColumnWidthSetting": "110px"
-                    },
                     "numberFormat": {
                       "unit": 5,
                       "options": {
@@ -2383,8 +2375,7 @@
                     "formatter": 7,
                     "formatOptions": {
                       "linkTarget": "Url",
-                      "linkColumn": "vmLink",
-                      "customColumnWidthSetting": "90px"
+                      "linkColumn": "vmLink"
                     }
                   },
                   {
@@ -2392,16 +2383,12 @@
                     "formatter": 7,
                     "formatOptions": {
                       "linkTarget": "Url",
-                      "linkColumn": "aksArcLink",
-                      "customColumnWidthSetting": "90px"
+                      "linkColumn": "aksArcLink"
                     }
                   },
                   {
                     "columnMatch": "vCPUTotal",
                     "formatter": 0,
-                    "formatOptions": {
-                      "customColumnWidthSetting": "80px"
-                    },
                     "numberFormat": {
                       "unit": 0,
                       "options": {
@@ -2414,9 +2401,6 @@
                   {
                     "columnMatch": "vmMemoryTotalGB",
                     "formatter": 0,
-                    "formatOptions": {
-                      "customColumnWidthSetting": "110px"
-                    },
                     "numberFormat": {
                       "unit": 5,
                       "options": {
@@ -2429,9 +2413,6 @@
                   {
                     "columnMatch": "storageUsedGB",
                     "formatter": 0,
-                    "formatOptions": {
-                      "customColumnWidthSetting": "100px"
-                    },
                     "numberFormat": {
                       "unit": 5,
                       "options": {
@@ -2444,9 +2425,6 @@
                   {
                     "columnMatch": "storageAvailGB",
                     "formatter": 0,
-                    "formatOptions": {
-                      "customColumnWidthSetting": "110px"
-                    },
                     "numberFormat": {
                       "unit": 5,
                       "options": {
@@ -2460,7 +2438,6 @@
                     "columnMatch": "storageUsedPct",
                     "formatter": 18,
                     "formatOptions": {
-                      "customColumnWidthSetting": "120px",
                       "thresholdsOptions": "icons",
                       "thresholdsGrid": [
                         {
