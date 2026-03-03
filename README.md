@@ -42,8 +42,9 @@ Added a dedicated **Capacity** tab providing centralized visibility into cluster
 #### Cluster Workload Drill-Down
 - **VMs on Cluster**: Per-VM detail with Avg/Peak CPU % and Avg/Peak Memory % from Log Analytics, with portal links
 - **AKS Clusters on Cluster**: AKS Arc clusters with connectivity status, Kubernetes version, agent version, provisioning state, and node count
-- **AKS Node Resource Usage**: Per-AKS-node CPU and memory utilization via PromQL from Azure Monitor Workspace (Managed Prometheus), with separate CPU and Memory tables and green-red heatmap bars
+- **AKS Node Resource Usage**: Top 5 AKS nodes by resource usage via PromQL timecharts from Azure Monitor Workspace (Managed Prometheus), showing CPU, Memory, Disk I/O, and Network Throughput over time
 - **Azure Monitor Workspace Parameter**: New dropdown to select the Azure Monitor Workspace collecting Prometheus metrics from AKS Arc clusters
+- **Prometheus Time Range**: Dedicated time range picker (30 min to 7 days, default 4 hours) for Prometheus metric charts
 
 ### Bug Fixes & Technical Improvements
 - **ARG Query Fixes**: Removed all `let` statements from `extensibilityresources` queries (ARG constraint), restructured queries to work within single-extensibilityresources-per-query limit
@@ -103,7 +104,7 @@ We welcome contributions! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guid
 
 ## CI/CD Validation
 
-All pull requests are automatically validated by a GitHub Actions workflow that runs **117+ unit tests** across 22 test suites. These tests ensure workbook integrity without requiring an Azure environment.
+All pull requests are automatically validated by a GitHub Actions workflow that runs **137+ unit tests** across 23 test suites. These tests ensure workbook integrity without requiring an Azure environment.
 
 | Test Suite | What It Validates |
 |---|---|
@@ -121,6 +122,7 @@ All pull requests are automatically validated by a GitHub Actions workflow that 
 | Conditional Visibility | Tab groups have unique visibility parameters |
 | KQL Robustness | ResourceGroupFilter regex, updateName parsing, no orphaned parameters |
 | Regression Guards | Item, query, and chart count minimums |
+| Prometheus AKS Metrics | PrometheusQueryProvider format, queryType 16, topk queries, timechart config |
 | README & Docs | Required sections, CONTRIBUTING.md, SECURITY.md, LICENSE |
 
 Test results are published as a **Check Run** on each PR with per-test annotations, and a summary table is written to the GitHub Actions **Job Summary**.
@@ -186,6 +188,8 @@ Centralized view of cluster resource utilization, capacity forecasting, and work
 - **Cluster Workload Drill-Down**: Detailed view of VMs and AKS Arc clusters on a selected cluster:
   - Requires single cluster selection from the Cluster filter
   - Shows individual workload resource allocations (vCPUs, memory, status)
+  - **AKS Node Resource Usage**: Top 5 nodes by CPU, Memory, Disk I/O, and Network Throughput via Prometheus timecharts from Azure Monitor Workspace
+  - Configurable Prometheus Time Range (30 min – 7 days)
 
 ### 📋 System Health
 Detailed view of cluster system health and update readiness:
