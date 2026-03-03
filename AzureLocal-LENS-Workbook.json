@@ -3178,7 +3178,7 @@
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "resources\r\n| where type == \"microsoft.hybridcompute/machines\"\r\n| where properties.cloudMetadata.provider == \"AzSHCI\"\r\n| where kind != \"HCI\"\r\n| where '{ResourceGroupFilter}' == '' or resourceGroup matches regex strcat('(?i)', replace_string(replace_string('{ResourceGroupFilter}', '*', '.*'), '?', '.'))\r\n| join kind=inner (\r\n    resources\r\n    | where type == \"microsoft.azurestackhci/clusters\"\r\n    | where '{ResourceGroupFilter}' == '' or resourceGroup matches regex strcat('(?i)', replace_string(replace_string('{ResourceGroupFilter}', '*', '.*'), '?', '.'))\r\n    | where '{ClusterTagName}' == '' or ('{ClusterTagValue}' != '' and tostring(tags['{ClusterTagName}']) =~ '{ClusterTagValue}')\r\n    | project clusterName = name, clusterResourceGroup = resourceGroup, physicalCoresPerNode = toint(properties.reportedProperties.nodes[0].coreCount)\r\n) on $left.resourceGroup == $right.clusterResourceGroup\r\n| where '{ClusterFilter}' == 'value::all' or clusterName =~ '{ClusterFilter}'\r\n| extend nodeName = name\r\n| extend status = tostring(properties.status)\r\n| extend osSku = tostring(properties.osSku)\r\n| extend memoryGB = toint(properties.detectedProperties.totalPhysicalMemoryInGigabytes)\r\n| project nodeName, clusterName, status, osSku, logicalCoreCount = physicalCoresPerNode, memoryGB\r\n| order by clusterName asc, nodeName asc",
+              "query": "resources\r\n| where type == \"microsoft.hybridcompute/machines\"\r\n| where properties.cloudMetadata.provider == \"AzSHCI\"\r\n| where kind != \"HCI\"\r\n| where '{ResourceGroupFilter}' == '' or resourceGroup matches regex strcat('(?i)', replace_string(replace_string('{ResourceGroupFilter}', '*', '.*'), '?', '.'))\r\n| join kind=inner (\r\n    resources\r\n    | where type == \"microsoft.azurestackhci/clusters\"\r\n    | where '{ResourceGroupFilter}' == '' or resourceGroup matches regex strcat('(?i)', replace_string(replace_string('{ResourceGroupFilter}', '*', '.*'), '?', '.'))\r\n    | where '{ClusterTagName}' == '' or ('{ClusterTagValue}' != '' and tostring(tags['{ClusterTagName}']) =~ '{ClusterTagValue}')\r\n    | project clusterName = name, clusterResourceGroup = resourceGroup, physicalCoresPerNode = toint(properties.reportedProperties.nodes[0].coreCount), osDisplayVersion = tostring(properties.reportedProperties.nodes[0].osDisplayVersion)\r\n) on $left.resourceGroup == $right.clusterResourceGroup\r\n| where '{ClusterFilter}' == 'value::all' or clusterName =~ '{ClusterFilter}'\r\n| extend nodeName = name\r\n| extend status = tostring(properties.status)\r\n| extend logicalCores = toint(properties.detectedProperties.logicalCoreCount)\r\n| extend memoryGiB = toint(properties.detectedProperties.totalPhysicalMemoryInGigabytes)\r\n| project nodeName, clusterName, status, osDisplayVersion, physicalCores = physicalCoresPerNode, logicalCores, memoryGiB\r\n| order by clusterName asc, nodeName asc",
               "size": 0,
               "title": "Node Resource Health Summary",
               "noDataMessage": "No Azure Stack HCI nodes found. Verify your subscription and resource group filters.",
@@ -3211,14 +3211,21 @@
                     }
                   },
                   {
-                    "columnMatch": "logicalCoreCount",
+                    "columnMatch": "physicalCores",
                     "formatter": 1,
                     "formatOptions": {
-                      "customColumnWidthSetting": "100px"
+                      "customColumnWidthSetting": "120px"
                     }
                   },
                   {
-                    "columnMatch": "memoryGB",
+                    "columnMatch": "logicalCores",
+                    "formatter": 1,
+                    "formatOptions": {
+                      "customColumnWidthSetting": "120px"
+                    }
+                  },
+                  {
+                    "columnMatch": "memoryGiB",
                     "formatter": 1,
                     "formatOptions": {
                       "customColumnWidthSetting": "100px"
@@ -3239,16 +3246,20 @@
                     "label": "Status"
                   },
                   {
-                    "columnId": "osSku",
-                    "label": "OS SKU"
+                    "columnId": "osDisplayVersion",
+                    "label": "OS Version"
                   },
                   {
-                    "columnId": "logicalCoreCount",
-                    "label": "CPU Cores"
+                    "columnId": "physicalCores",
+                    "label": "Physical Cores"
                   },
                   {
-                    "columnId": "memoryGB",
-                    "label": "Memory (GB)"
+                    "columnId": "logicalCores",
+                    "label": "Logical Cores"
+                  },
+                  {
+                    "columnId": "memoryGiB",
+                    "label": "Memory (GiB)"
                   }
                 ]
               }
