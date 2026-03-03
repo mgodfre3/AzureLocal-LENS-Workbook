@@ -3519,8 +3519,7 @@
                   "jsonData": "[{\"value\":\"Critical\",\"label\":\"Critical\"},{\"value\":\"Warning\",\"label\":\"Warning\"},{\"value\":\"Informational\",\"label\":\"Informational\"}]",
                   "value": [
                     "Critical",
-                    "Warning",
-                    "Informational"
+                    "Warning"
                   ]
                 }
               ],
