@@ -4205,11 +4205,11 @@
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "avg by (cluster, instance) (1 - rate(node_cpu_seconds_total{mode=\"idle\"}[5m])) * 100",
+              "query": "{\"version\":\"PrometheusQueryProvider/1.0\",\"queryText\":\"avg by (cluster, instance) (1 - rate(node_cpu_seconds_total{mode=\\\"idle\\\"}[5m])) * 100\",\"type\":\"query\"}",
               "size": 0,
               "title": "☸️ AKS Node CPU Usage on: {ClusterFilter}",
               "noDataMessage": "No Prometheus data found. Ensure Azure Managed Prometheus is enabled on your AKS Arc clusters and the selected Azure Monitor Workspace receives metrics.",
-              "queryType": 18,
+              "queryType": 16,
               "resourceType": "microsoft.monitor/accounts",
               "crossComponentResources": [
                 "{AzureMonitorWorkspace}"
@@ -4266,11 +4266,11 @@
             "type": 3,
             "content": {
               "version": "KqlItem/1.0",
-              "query": "(1 - avg by (cluster, instance) (node_memory_MemAvailable_bytes) / avg by (cluster, instance) (node_memory_MemTotal_bytes)) * 100",
+              "query": "{\"version\":\"PrometheusQueryProvider/1.0\",\"queryText\":\"(1 - avg by (cluster, instance) (node_memory_MemAvailable_bytes) / avg by (cluster, instance) (node_memory_MemTotal_bytes)) * 100\",\"type\":\"query\"}",
               "size": 0,
               "title": "☸️ AKS Node Memory Usage on: {ClusterFilter}",
               "noDataMessage": "No Prometheus data found. Ensure Azure Managed Prometheus is enabled on your AKS Arc clusters and the selected Azure Monitor Workspace receives metrics.",
-              "queryType": 18,
+              "queryType": 16,
               "resourceType": "microsoft.monitor/accounts",
               "crossComponentResources": [
                 "{AzureMonitorWorkspace}"
