@@ -2137,7 +2137,7 @@
           {
             "type": 1,
             "content": {
-              "json": "## 🏗️ Cluster Capacity Overview\r\nPhysical cores (pCPUs), and workload virtual cores (vCPUs) allocation, allows showing you \"pCPU to vCPU Ratio\" per Azure Local cluster.\r\n\r\nUse the **'Target pCPU:vCPU Ratio'** drop-down box to input your preferred ratio, based on risk appetite and/or workload performance requirements (default ratio is 1:4)."
+              "json": "## 🏗️ Cluster Capacity Overview\r\nPhysical cores (pCPUs), and workload virtual cores (vCPUs) allocation, allows showing you the \"P:V CPU Ratio\" per Azure Local cluster.\r\n\r\nUse the **'Target pCPU:vCPU Ratio'** drop-down box to input your preferred ratio, based on risk appetite and/or workload performance requirements (default ratio is 1:4)."
             },
             "name": "text-capacity-overview-header"
           },
@@ -2511,11 +2511,11 @@
                   },
                   {
                     "columnId": "pCPUvCPURatio",
-                    "label": "pCPU to vCPU Ratio"
+                    "label": "P:V CPU Ratio"
                   },
                   {
                     "columnId": "ratioValue",
-                    "label": "pCPU to vCPU Ratio"
+                    "label": "P:V CPU Ratio"
                   },
                   {
                     "columnId": "ratioHealthPct",
