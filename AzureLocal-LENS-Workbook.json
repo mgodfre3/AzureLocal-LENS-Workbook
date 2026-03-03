@@ -2924,6 +2924,28 @@
                   ]
                 },
                 {
+                  "id": "forecast-resource-filter-param",
+                  "version": "KqlParameterItem/1.0",
+                  "name": "ForecastResourceFilter",
+                  "label": "Resource",
+                  "type": 2,
+                  "description": "Filter forecast results by resource type.",
+                  "isRequired": true,
+                  "multiSelect": true,
+                  "quote": "",
+                  "delimiter": ",",
+                  "typeSettings": {
+                    "additionalResourceOptions": [
+                      "value::all"
+                    ],
+                    "showDefault": false
+                  },
+                  "jsonData": "[{\"value\":\"CPU\",\"label\":\"CPU\"},{\"value\":\"Memory\",\"label\":\"Memory\"},{\"value\":\"Storage\",\"label\":\"Storage\"}]",
+                  "value": [
+                    "value::all"
+                  ]
+                },
+                {
                   "id": "forecast-time-range-param",
                   "version": "KqlParameterItem/1.0",
                   "name": "ForecastTimeRange",
@@ -2989,28 +3011,6 @@
                   },
                   "jsonData": "[{\"value\":\"85\",\"label\":\"85%\"},{\"value\":\"90\",\"label\":\"90% (Default)\"},{\"value\":\"95\",\"label\":\"95%\"}]",
                   "value": "90"
-                },
-                {
-                  "id": "forecast-resource-filter-param",
-                  "version": "KqlParameterItem/1.0",
-                  "name": "ForecastResourceFilter",
-                  "label": "Resource",
-                  "type": 2,
-                  "description": "Filter forecast results by resource type.",
-                  "isRequired": true,
-                  "multiSelect": true,
-                  "quote": "",
-                  "delimiter": ",",
-                  "typeSettings": {
-                    "additionalResourceOptions": [
-                      "value::all"
-                    ],
-                    "showDefault": false
-                  },
-                  "jsonData": "[{\"value\":\"CPU\",\"label\":\"CPU\"},{\"value\":\"Memory\",\"label\":\"Memory\"},{\"value\":\"Storage\",\"label\":\"Storage\"}]",
-                  "value": [
-                    "value::all"
-                  ]
                 }
               ],
               "style": "pills"
