@@ -3330,7 +3330,15 @@
                     "columnMatch": "memoryGiB",
                     "formatter": 1,
                     "formatOptions": {
-                      "customColumnWidthSetting": "100px"
+                      "customColumnWidthSetting": "140px"
+                    },
+                    "numberFormat": {
+                      "unit": 5,
+                      "options": {
+                        "style": "decimal",
+                        "minimumFractionDigits": 0,
+                        "maximumFractionDigits": 0
+                      }
                     }
                   }
                 ],
@@ -3365,7 +3373,7 @@
                   },
                   {
                     "columnId": "memoryGiB",
-                    "label": "Physical Memory (GiB)"
+                    "label": "Physical Memory"
                   }
                 ]
               }
